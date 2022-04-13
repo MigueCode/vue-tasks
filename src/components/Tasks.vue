@@ -3,7 +3,7 @@
     <h2>Create a new Task</h2>
     <CreateTask @task-created="sendData" />
     <h2>Tasks to do</h2>
-    <Task :tasks="tasks" />
+    <Task @task-del="del" :tasks="tasks" />
   </div>
 </template>
 
@@ -43,6 +43,15 @@ export default {
       fetch("https://api-tasks-dev.herokuapp.com/api/tasks")
         .then((response) => response.json())
         .then((json) => (this.tasks = [...json]));
+    },
+
+    del(e) {
+      // let itemToDel = e.id;
+      // console.log(e);
+
+      fetch(`https://api-tasks-dev.herokuapp.com/api/tasks/${e}`, {
+        method: "DELETE",
+      }).then(() => this.getData());
     },
   },
 
