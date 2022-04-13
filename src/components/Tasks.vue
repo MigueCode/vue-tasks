@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <h2>Create a new Task</h2>
-    <CreateTask />
+    <CreateTask @task-created="sendData" />
     <h2>Tasks to do</h2>
-    <Task :tasks="tasks" @task-created="getData" />
+    <Task :tasks="tasks" />
   </div>
 </template>
 
@@ -25,6 +25,20 @@ export default {
   },
 
   methods: {
+    sendData(t) {
+      console.log(t);
+
+      fetch("https://api-tasks-dev.herokuapp.com/api/tasks", {
+        method: "POST",
+        body: JSON.stringify(t),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }).then(() => this.getData());
+
+      t.task = "";
+    },
+
     getData() {
       fetch("https://api-tasks-dev.herokuapp.com/api/tasks")
         .then((response) => response.json())
@@ -36,7 +50,7 @@ export default {
     this.getData();
     // this.copyTasks = [...this.tasks];
     // this.tasks = this.getData();
-    console.log("created");
+    // console.log("created");
     // console.log(this.copyTasks);
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <input v-model="task.task" placeholder="Add your task to do" />
-  <button @click="sendData">Create</button>
+  <button @click="$emit('taskCreated', this.task)">Create</button>
 </template>
 
 <script>
@@ -13,21 +13,7 @@ export default {
     };
   },
 
-  methods: {
-    sendData() {
-      console.log(this.task);
-
-      fetch("https://api-tasks-dev.herokuapp.com/api/tasks", {
-        method: "POST",
-        body: JSON.stringify(this.task),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }).then((res) => console.log(res));
-
-      this.task.task = "";
-    },
-  },
+  methods: {},
 };
 </script>
 
